@@ -19,6 +19,7 @@ function Product(name, filePath) {
   this.name = name;
   this.filePath = filePath;
   this.clicks = 0;
+  this.showTimes= 0;
 
   Product.allProducts.push(this);
 
@@ -60,6 +61,7 @@ function renderImages() {
   firstImageIndex = randomIndex();
   middleImageIndex = randomIndex();
   finalImageIndex = randomIndex();
+
 
 
 
@@ -111,11 +113,11 @@ function trackUserClick(event) {
     let productList = document.getElementById('results-list');
 
     for (let i = 0; i < Product.allProducts.length; i++) {
-      let productResult = document.createElement('li');
 
+      let productResult = document.createElement('li');
       productList.append(productResult);
 
-      productResult.textContent = `${Product.allProducts[i].name} has ${Product.allProducts[i].clicks} clicks`;
+      productResult.textContent = `${Product.allProducts[i].name} had ${Product.allProducts[i].clicks} clicks`;
 
     }
 
