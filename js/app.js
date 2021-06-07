@@ -1,11 +1,12 @@
 'use strict';
 
 
+let container= document.getElementById('allImages');
 let firstImageElement = document.getElementById('firstImage');
 let middleImageElement = document.getElementById('middleImage');
 let finalImageElement = document.getElementById('finalImage');
 
-let totalAttempts = 10;
+let totalAttempts = 25;
 let userCounter = 0;
 
 let firstImageIndex;
@@ -74,22 +75,26 @@ function renderImages() {
 
 
   firstImageElement.src = Product.allProducts[firstImageIndex].filePath;
+  Product.allProducts[firstImageIndex].showTimes++;
+
   middleImageElement.src = Product.allProducts[middleImageIndex].filePath;
+  Product.allProducts[middleImageIndex].showTimes++;
+
   finalImageElement.src = Product.allProducts[finalImageIndex].filePath;
+  Product.allProducts[finalImageIndex].showTimes++;
 
 }
 
 
 renderImages();
 
+container.addEventListener('click',trackUserClick);
 
-firstImageElement.addEventListener('click', trackUserClick);
-middleImageElement.addEventListener('click', trackUserClick);
-finalImageElement.addEventListener('click', trackUserClick);
+let button=document.getElementById('myBtn');
 
 function trackUserClick(event) {
 
-  // console.log(event.target.id);
+
 
   userCounter++;
 
@@ -101,30 +106,43 @@ function trackUserClick(event) {
     } else if (event.target.id === 'middleImage') {
       Product.allProducts[middleImageIndex].clicks++;
 
-    } else {
+    } else if (event.target.id === 'finalImage') {
       Product.allProducts[finalImageIndex].clicks++;
+    }
+    else {
+      alert('Click on the image please!');
+      userCounter--;
     }
 
     renderImages();
 
+
   } else {
 
+    button.hidden=false;
+    button.addEventListener('click', showingList);
 
-    let productList = document.getElementById('results-list');
 
-    for (let i = 0; i < Product.allProducts.length; i++) {
-
-      let productResult = document.createElement('li');
-      productList.append(productResult);
-
-      productResult.textContent = `${Product.allProducts[i].name} had ${Product.allProducts[i].clicks} clicks`;
-
-    }
-
-    firstImageElement.removeEventListener('click', trackUserClick);
-    middleImageElement.removeEventListener('click', trackUserClick);
-    finalImageElement.removeEventListener('click', trackUserClick);
+    container.removeEventListener('click',trackUserClick);
 
   }
+
+}
+
+
+function showingList() {
+
+  let productList = document.getElementById('results-list');
+
+  for (let i = 0; i < Product.allProducts.length; i++) {
+
+    let productResult = document.createElement('li');
+    productList.append(productResult);
+
+    productResult.textContent = `${Product.allProducts[i].name} had ${Product.allProducts[i].clicks} clicks, and was seen ${Product.allProducts[i].showTimes} times`;
+
+  }
+
+  button.removeEventListener('click', showingList);
 
 }
