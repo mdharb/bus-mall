@@ -1,7 +1,7 @@
 'use strict';
 
 
-let container= document.getElementById('allImages');
+let container = document.getElementById('allImages');
 let firstImageElement = document.getElementById('firstImage');
 let middleImageElement = document.getElementById('middleImage');
 let finalImageElement = document.getElementById('finalImage');
@@ -13,16 +13,17 @@ let firstImageIndex;
 let middleImageIndex;
 let finalImageIndex;
 
-let productNames=[];
-let chartClick=[];
-let chartShowTimes=[];
+let productNames = [];
+let chartClick = [];
+let chartShowTimes = [];
+
 
 function Product(name, filePath) {
 
   this.name = name;
   this.filePath = filePath;
   this.clicks = 0;
-  this.showTimes= 0;
+  this.showTimes = 0;
 
   productNames.push(this.name);
   Product.allProducts.push(this);
@@ -61,7 +62,8 @@ function randomIndex() {
 }
 
 
-let threeRandomImg= [];
+let threeRandomImg = [];
+// console.log('before',threeRandomImg);
 
 function renderImages() {
 
@@ -69,9 +71,8 @@ function renderImages() {
   middleImageIndex = randomIndex();
   finalImageIndex = randomIndex();
 
-  console.log('before',threeRandomImg);
 
-  while (firstImageIndex === middleImageIndex || firstImageIndex === finalImageIndex || middleImageIndex === finalImageIndex || threeRandomImg.includes(firstImageIndex) || threeRandomImg.includes(middleImageIndex) || threeRandomImg.includes(finalImageIndex) ) {
+  while (firstImageIndex === middleImageIndex || firstImageIndex === finalImageIndex || middleImageIndex === finalImageIndex || threeRandomImg.includes(firstImageIndex) || threeRandomImg.includes(middleImageIndex) || threeRandomImg.includes(finalImageIndex)) {
 
     firstImageIndex = randomIndex();
     middleImageIndex = randomIndex();
@@ -79,8 +80,8 @@ function renderImages() {
 
   }
 
-  threeRandomImg= [firstImageIndex,middleImageIndex,finalImageIndex];
-  console.log('After',threeRandomImg);
+  threeRandomImg = [firstImageIndex, middleImageIndex, finalImageIndex];
+  // console.log('After',threeRandomImg);
 
 
 
@@ -94,17 +95,13 @@ function renderImages() {
   Product.allProducts[finalImageIndex].showTimes++;
 
 }
-
 renderImages();
 
 
-container.addEventListener('click',trackUserClick);
-
-let button=document.getElementById('myBtn');
+container.addEventListener('click', trackUserClick);
+let button = document.getElementById('myBtn');
 
 function trackUserClick(event) {
-
-
 
   userCounter++;
 
@@ -128,13 +125,13 @@ function trackUserClick(event) {
 
   } else {
 
-    button.hidden=false;
+    button.hidden = false;
     button.addEventListener('click', showingList);
 
 
-    container.removeEventListener('click',trackUserClick);
+    container.removeEventListener('click', trackUserClick);
 
-    for (let i=0; i<Product.allProducts.length; i++) {
+    for (let i = 0; i < Product.allProducts.length; i++) {
 
       chartClick.push(Product.allProducts[i].clicks);
       chartShowTimes.push(Product.allProducts[i].showTimes);
@@ -143,6 +140,7 @@ function trackUserClick(event) {
 
   }
 
+  productDataSet();
 }
 
 
@@ -160,11 +158,35 @@ function showingList() {
   }
 
   // button.removeEventListener('click', showingList);
-  button.hidden= true;
+  button.hidden = true;
 
   dataChart();
 
 }
+
+
+function productDataSet() {
+
+  let stringArr = JSON.stringify(Product.allProducts);
+  localStorage.setItem('product', stringArr);
+  console.log(stringArr);
+}
+
+
+function productDataGet() {
+
+  let data = localStorage.getItem('product');
+
+  let originalArr = JSON.parse(data);
+
+  if (originalArr !== null) {
+    Product.allProducts = originalArr;
+  }
+
+  renderImages();
+}
+productDataGet();
+
 
 
 function dataChart() {
