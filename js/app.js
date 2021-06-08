@@ -6,7 +6,7 @@ let firstImageElement = document.getElementById('firstImage');
 let middleImageElement = document.getElementById('middleImage');
 let finalImageElement = document.getElementById('finalImage');
 
-let totalAttempts = 10;
+let totalAttempts = 25;
 let userCounter = 0;
 
 let firstImageIndex;
@@ -54,11 +54,11 @@ new Product('Water-Can', 'img/water-can.jpg');
 new Product('Water-Glass', 'img/wine-glass.jpg');
 
 
+
 function randomIndex() {
 
   return Math.floor(Math.random() * Product.allProducts.length);
 }
-
 
 function renderImages() {
 
@@ -66,15 +66,20 @@ function renderImages() {
   middleImageIndex = randomIndex();
   finalImageIndex = randomIndex();
 
+  let threeRandomImg= [];
 
+  while (firstImageIndex === middleImageIndex || firstImageIndex === finalImageIndex || middleImageIndex === finalImageIndex || firstImageIndex === threeRandomImg || middleImageIndex === threeRandomImg || finalImageIndex === threeRandomImg) {
 
-
-  while (firstImageIndex === middleImageIndex || firstImageIndex === finalImageIndex || middleImageIndex === finalImageIndex) {
     firstImageIndex = randomIndex();
     middleImageIndex = randomIndex();
     finalImageIndex = randomIndex();
 
+
   }
+
+  threeRandomImg.push(firstImageIndex,middleImageIndex,finalImageIndex);
+  console.log(threeRandomImg);
+
 
 
   firstImageElement.src = Product.allProducts[firstImageIndex].filePath;
@@ -88,7 +93,6 @@ function renderImages() {
 
 
 }
-
 
 renderImages();
 
