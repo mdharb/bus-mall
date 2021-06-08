@@ -60,25 +60,27 @@ function randomIndex() {
   return Math.floor(Math.random() * Product.allProducts.length);
 }
 
+
+let threeRandomImg= [];
+
 function renderImages() {
 
   firstImageIndex = randomIndex();
   middleImageIndex = randomIndex();
   finalImageIndex = randomIndex();
 
-  let threeRandomImg= [];
+  console.log('before',threeRandomImg);
 
-  while (firstImageIndex === middleImageIndex || firstImageIndex === finalImageIndex || middleImageIndex === finalImageIndex || firstImageIndex === threeRandomImg || middleImageIndex === threeRandomImg || finalImageIndex === threeRandomImg) {
+  while (firstImageIndex === middleImageIndex || firstImageIndex === finalImageIndex || middleImageIndex === finalImageIndex || threeRandomImg.includes(firstImageIndex) || threeRandomImg.includes(middleImageIndex) || threeRandomImg.includes(finalImageIndex) ) {
 
     firstImageIndex = randomIndex();
     middleImageIndex = randomIndex();
     finalImageIndex = randomIndex();
 
-
   }
 
-  threeRandomImg.push(firstImageIndex,middleImageIndex,finalImageIndex);
-  console.log(threeRandomImg);
+  threeRandomImg= [firstImageIndex,middleImageIndex,finalImageIndex];
+  console.log('After',threeRandomImg);
 
 
 
@@ -91,10 +93,10 @@ function renderImages() {
   finalImageElement.src = Product.allProducts[finalImageIndex].filePath;
   Product.allProducts[finalImageIndex].showTimes++;
 
-
 }
 
 renderImages();
+
 
 container.addEventListener('click',trackUserClick);
 
