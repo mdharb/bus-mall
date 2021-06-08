@@ -169,7 +169,7 @@ function productDataSet() {
 
   let stringArr = JSON.stringify(Product.allProducts);
   localStorage.setItem('product', stringArr);
-  console.log(stringArr);
+
 }
 
 
@@ -183,7 +183,6 @@ function productDataGet() {
     Product.allProducts = originalArr;
   }
 
-  renderImages();
 }
 productDataGet();
 
